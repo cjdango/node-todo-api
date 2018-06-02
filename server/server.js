@@ -26,3 +26,5 @@ app.listen(port, () => {
     console.log(`Server is started at port ${port}`);
 });
 
+module.exports = { app };
+
