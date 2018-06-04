@@ -92,7 +92,20 @@ app.patch('/todos/:id', (req, res) => {
     }).catch((e) => {
         res.status(400).send();
     });
-})
+});
+
+app.post('/users', (req, res) => {
+    const cred = _.pick(req.body, ['email', 'password']);
+    const newUser = new User(cred);
+
+    newUser.save().then(() => {
+        return newUser.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(newUser);
+    }).catch((e) => {
+        res.status(400).send(e);
+    })
+});
 
 app.listen(port, () => {
     console.log(`Server is started at port ${port}`);
